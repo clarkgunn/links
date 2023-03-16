@@ -1,0 +1,39 @@
+---
+import Renderer from "../../components/Renderer.astro";
+import BlogPostMeta from "../../components/BlogPostMeta.astro";
+import ContentLayout from "../../layouts/ContentLayout.astro";
+import { SITE_URL } from "../../config";
+import { getEntryBySlug } from 'astro:content';
+
+export async function getStaticPaths() {
+  const episodes = await getEntryBySlug('episodes');
+
+  const filteredepisodes = episodes
+    .filter((p) => p.frontmatter.draft !== true)
+
+  return filteredepisodes.map((episode) => {
+    return { params: { slug: episode.slug } };
+  });
+}
+
+const { slug } = Astro.params;
+if (typeof slug !== "string") {
+  throw Error(`slug should be string. Received: ${slug}`);
+}
+
+const { content, frontmatter } = await getCollection('episodes', ({data}) => {
+  return 
+})
+---
+
+<ContentLayout title={frontmatter.title} date={frontmatter.date}>
+  <BlogPostMeta
+    title={frontmatter.title}
+    description={frontmatter.description}
+    publishDate={frontmatter.date.toISOString()}
+    pagePath={`/episode/${slug}`}
+    ogImageAbsoluteUrl={ogImageAbsoluteUrl}
+    slot="meta"
+  />
+  <Renderer content={content} slot="content" />
+</ContentLayout>

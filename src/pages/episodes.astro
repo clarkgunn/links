@@ -1,0 +1,85 @@
+---
+import PageLayout from "../layouts/PageLayout.astro";
+import PageMeta from "../components/PageMeta.astro";
+import ExternalLinkIcon from "../components/ui/icons/external-link.astro";
+import { SITE_TITLE } from "../config";
+import { getCollection } from "astro:content";
+
+const episodes = await getCollection('episode', ({data}) => {
+  return data.draft !== true;
+});
+---
+
+<PageLayout>
+  <PageMeta title={`Episodes | ${SITE_TITLE}`} slot="meta" />
+  <section slot="main">
+    <ul>
+      {
+        episodes.map((episode) => {
+          const formattedDate = new Date(
+            episode.frontmatter.pubDate
+          ).toLocaleDateString("en-us", {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          });
+          return (
+            <li class="post">
+              <div class="title">
+                  <a href={`/episode/${episode.slug}`}>{episode.frontmatter.title}</a>
+              </div>
+              <div class="publish-date">
+                <time datetime={episode.frontmatter.date.toISOString()}>
+                  {formattedDate}
+                </time>
+              </div>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </section>
+</PageLayout>
+
+<!-- <style>
+  ul {
+    list-style-type: none;
+    padding: unset;
+  }
+
+  .post {
+    display: grid;
+    grid-template-columns: 1fr;
+    line-height: 1.5;
+  }
+
+  @media (min-width: 640px) {
+    .post {
+      grid-template-columns: 1fr auto;
+    }
+  }
+
+  .post + .post {
+    padding-top: 0.5rem;
+  }
+
+  .title a {
+    color: var(--text);
+    border-bottom: none;
+  }
+
+  .title a:hover {
+    color: var(--text-link);
+  }
+
+  .icon-realign {
+    margin-bottom: -1.5px;
+    margin-left: 2px;
+  }
+
+  .publish-date {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+    font-style: italic;
+  }
+</style> -->
