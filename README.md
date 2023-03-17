@@ -1,4 +1,4 @@
-![All-caps white text on a dark background reads "LINKS". There is a light red horizontal line behind the S and attached to the legs of the K to imply a left pointing arrow.](./public/images/links.png)
+![All-caps white text on a dark background reads "LINKS". There is a light red horizontal line behind the S and attached to the legs of the K to imply a left pointing arrow.](./public/images/links-long.png)
 
 # LINKS
 
